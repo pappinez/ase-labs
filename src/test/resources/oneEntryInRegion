@@ -1,0 +1,5 @@
+Statechart(sct).
+Region(r).
+Entry(e3).
+Entry(e4).
+entryInRegion(r, e3).

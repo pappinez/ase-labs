@@ -9,6 +9,81 @@
 
 % % Write your metamodel below this
 
+class CPSModel {
+    /* The CPSModel may contain multiple different software types organized in a
+       software repository.*/
+    contains SoftwareType[] softwareRepository
+    /* Similarly, the CPSModel may contain multiple different computer types in the
+       form of a computer repository. */
+    contains ComputerType[] computerRepository
+    /* The CPSModel may consists of multiple different CPS desings.*/
+    contains CPS[] designs
+}
+
+/* A CPS describes a configuration of computers*/
+class CPS {
+    contains ComputerInstance[1..*] computers
+}
+/* A software type describes a software in the market.
+Each software might be purchased and installed multiple times:
+those are called software instances.  */
+class SoftwareType {
+    /* Each software type may depend on multiple other softwares,
+       which can be denoted by the dependsOnSpecificSoftware reference. */
+    SoftwareType[] dependsOnSpecificSoftware
+}
+/* A Software instance denotes the copy of Software type installed on a computer.
+  Each software instance may have different configurations and licenses.*/
+class SoftwareInstance {
+    /* The softwareType relation connects the instances with the types. */
+    SoftwareType[1] softwareType
+}
+/* A computer type describes a computer (hardware) in the market.
+Each hardware can have multiple instance.*/
+class ComputerType.
+/* A computer instance dentoes the copy of a hardware.
+Each instance can be configured in a different way*/
+class ComputerInstance{
+    /* The computerType relation connects the instances with the types. */
+    ComputerType[1] computerType
+    /* Each computer can communicate with others.
+      Communication must be mutual. */
+    ComputerInstance[] communicatesWith opposite communicatesWith
+    /* Each computer may have some installed software instances. */
+    contains SoftwareInstance[] installedSoftwares
+    /* Additionally, each computer may contain some
+    extra hardware. */
+    contains Hardware[0..3] extraHardware
+}
+
+/* A hardware describes an extra equipment for computers
+(like sensors, controllers or special video cards)*/
+abstract class Hardware.
+
+abstract class Sensor extends Hardware.
+/* A Camera is a sensor */
+class Camera extends Sensor.
+/* A Thermometer is a sensor */
+class Thermometer extends Sensor.
+/* A SmokeDetector is a sensor */
+class SmokeDetector extends Sensor {
+    /* A specialty of the smokedetector is that it has a direct
+connection to at least a single alarm */
+    FireAlarm[1..*] directAlarmConnection opposite directSensorConnection
+}
+abstract class Controller extends Hardware.
+/* A HeatController is a controller */
+class HeatController extends Controller.
+/* A LightController is a controller */
+class LightController extends Controller.
+/* A FireAlarm is a controller */
+class FireAlarm extends Controller {
+    /* A specialty of the FireAlarm is that it has a direct connection
+    to at leas a single SmokeDetector */
+    SmokeDetector[1..*] directSensorConnection opposite directAlarmConnection
+}
+
+class VideoCard extends Hardware.
 
 
 % % Please do not modify anything below this line. Do not delete this line!

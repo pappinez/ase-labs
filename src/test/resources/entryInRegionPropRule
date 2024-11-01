@@ -1,0 +1,7 @@
+
+propagation rule multipleEntryInRegionRule(r, e2) <->
+    must Region(r),
+    must entryInRegion(r, e1),
+    must !equals(e1,e2)
+==>
+    !entryInRegion(r, e2).
